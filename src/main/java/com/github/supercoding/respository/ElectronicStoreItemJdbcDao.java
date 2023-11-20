@@ -1,13 +1,11 @@
 package com.github.supercoding.respository;
 
-import com.github.supercoding.web.dto.Item;
-import com.github.supercoding.web.dto.ItemBody;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class ElectronicStoreItemJdbcDao implements ElectronicStoreItemRepository{
