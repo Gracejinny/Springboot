@@ -1,6 +1,5 @@
 package com.github.supercoding.respository.airlineTicket;
 
-import com.github.supercoding.respository.users.UserEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,9 +28,30 @@ public class AirlineTicketJdbcTemplateDao implements AirlineTicketRepository{
                     rs.getDouble("total_price")
             )
     ));
+
+    static RowMapper<AirlineTicketAndFlightInfo> airlineTicketAndFlightInfoRowMapper
+            = (((rs, rowNum) ->
+                new AirlineTicketAndFlightInfo(
+                        rs.getInt("A.ticket_id"),
+                        rs.getDouble("F.flight_price"),
+                        rs.getDouble("F.charge"),
+                        rs.getDouble("A.tax"),
+                        rs.getDouble("A.total_price")
+                )
+            ));
+
     @Override
     public List<AirlineTicket> findAllAirelineTicketsWithPlaceAndTicketType(String likePlace, String ticketType) {
         return jdbcTemplate.query("SELECT * FROM airline_ticket " +
                                         "WHERE arrival_loc = ? AND ticket_type = ?", airlineTicketRowMapper, likePlace, ticketType);
+    }
+
+    @Override
+    public List<AirlineTicketAndFlightInfo> findAllAirlineTicketAndFlightInfo(Integer airlineTicketId) {
+        return jdbcTemplate.query("SELECT A.ticket_id, A.tax, A.total_price, F.flight_price, F.charge " +
+                                        "FROM airline_ticket A " +
+                                        "      INNER JOIN flight F " +
+                                        "       ON A.ticket_id = F.ticket_id " +
+                                        "WHERE A.ticket_id = ?", airlineTicketAndFlightInfoRowMapper, airlineTicketId);
     }
 }
