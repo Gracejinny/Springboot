@@ -1,4 +1,4 @@
-package com.github.supercoding.respository;
+package com.github.supercoding.respository.Items;
 
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +18,8 @@ public class ElectronicStoreItemJdbcDao implements ElectronicStoreItemRepository
                         rs.getNString("name"),
                         rs.getNString("type"),
                         rs.getInt("price"),
+                        rs.getInt("store_id"),
+                        rs.getInt("stock"),
                         rs.getNString("cpu"),
                         rs.getNString("capacity"))));
 
@@ -49,4 +51,27 @@ public class ElectronicStoreItemJdbcDao implements ElectronicStoreItemRepository
 
         return jdbcTemplate.queryForObject("SELECT * FROM item WHERE id = ?", itemEntityRowMapper, idInt);
     }
+
+    @Override
+    public ItemEntity findItemByPathID(Integer idInt) {
+        return jdbcTemplate.queryForObject("SELECT * FROM item WHERE id = ?", itemEntityRowMapper, idInt);
+    }
+
+    @Override
+    public List<ItemEntity> findItemsByIds() {
+        return null;
+    }
+
+    @Override
+    public void deleteItem(int idInt) {
+        jdbcTemplate.update("DELETE FROM item WHERE id = ?",idInt);
+    }
+
+    @Override
+    public void updateItemStock(Integer itemId, Integer stock) {
+        jdbcTemplate.update("UPDATE item " +
+                        "SET stock = ? " +
+                        "WHERE id = ?", stock, itemId);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.github.supercoding.web.dto;
 
-import com.github.supercoding.respository.ItemEntity;
+import com.github.supercoding.respository.Items.ItemEntity;
 
 import java.util.Objects;
 
