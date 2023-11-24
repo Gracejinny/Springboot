@@ -1,5 +1,11 @@
 package com.github.supercoding.respository.airlineTicket;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class AirlineTicketAndFlightInfo {
     private Integer ticketId;
     private Integer price;
@@ -13,45 +19,5 @@ public class AirlineTicketAndFlightInfo {
         this.charge = charge.intValue();
         this.tax = tax.intValue();
         this.totalPrice = totalPrice.intValue();
-    }
-
-    public Integer getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(Integer ticketId) {
-        this.ticketId = ticketId;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getCharge() {
-        return charge;
-    }
-
-    public void setCharge(Integer charge) {
-        this.charge = charge;
-    }
-
-    public Integer getTax() {
-        return tax;
-    }
-
-    public void setTax(Integer tax) {
-        this.tax = tax;
-    }
-
-    public Integer getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Integer totalPrice) {
-        this.totalPrice = totalPrice;
     }
 }

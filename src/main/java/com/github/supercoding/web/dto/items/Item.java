@@ -1,9 +1,11 @@
-package com.github.supercoding.web.dto;
+package com.github.supercoding.web.dto.items;
 
 import com.github.supercoding.respository.Items.ItemEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
+@Getter
+@NoArgsConstructor
 public class Item {
     private String id;
     private String name;
@@ -11,8 +13,7 @@ public class Item {
     private Integer price;
     private Spec spec;
 
-    public Item() {
-    }
+
 
     public Item(Integer id, ItemBody itemBody){
         this.id = String.valueOf(id);
@@ -37,40 +38,5 @@ public class Item {
         this.name = itemEntity.getName();
         this.spec = new Spec(itemEntity.getCpu(), itemEntity.getCapacity());
 
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public Spec getSpec() {
-        return spec;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)){
-            return false;
-        }
-        Item item = (Item) o;
-        return id.equals(item.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
