@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.supercoding.respository.airlineTicket.AirlineTicket;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
+@Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Ticket {
     private String depart;
@@ -17,8 +19,6 @@ public class Ticket {
     private String departureTime;
     private String returnTime;
     private Integer ticketId;
-
-
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

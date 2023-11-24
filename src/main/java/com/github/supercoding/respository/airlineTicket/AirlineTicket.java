@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@ToString
 @EqualsAndHashCode(of = "ticketId")
 public class AirlineTicket {
     private Integer ticketId;

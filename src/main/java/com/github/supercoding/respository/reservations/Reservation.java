@@ -1,5 +1,6 @@
 package com.github.supercoding.respository.reservations;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @EqualsAndHashCode(of = "reservationId")
 public class Reservation {
     private Integer reservationId;

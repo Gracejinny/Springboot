@@ -9,6 +9,7 @@ import com.github.supercoding.respository.reservations.Reservation;
 import com.github.supercoding.respository.reservations.ReservationRepository;
 import com.github.supercoding.respository.users.UserEntity;
 import com.github.supercoding.respository.users.UserRepository;
+import com.github.supercoding.service.mapper.TicketMapper;
 import com.github.supercoding.web.dto.airline.ReservationRequest;
 import com.github.supercoding.web.dto.airline.ReservationResult;
 import com.github.supercoding.web.dto.airline.Ticket;
@@ -38,7 +39,7 @@ public class AirReservationService {
         List<AirlineTicket> airlineTickets
                 = airlineTicketRepository.findAllAirelineTicketsWithPlaceAndTicketType(likePlace, ticketType);
         // 둘의 정보를 조합해서 Ticket DTO를 만든다.
-        List<Ticket> tickets = airlineTickets.stream().map(Ticket::new).collect(Collectors.toList());
+        List<Ticket> tickets = airlineTickets.stream().map(TicketMapper.INSTANCE::airlineTicketToTicket).collect(Collectors.toList());
         return tickets;
     }
 

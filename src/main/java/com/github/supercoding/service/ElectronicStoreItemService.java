@@ -4,6 +4,7 @@ import com.github.supercoding.respository.Items.ElectronicStoreItemRepository;
 import com.github.supercoding.respository.Items.ItemEntity;
 import com.github.supercoding.respository.storeSales.StoreSales;
 import com.github.supercoding.respository.storeSales.StoreSalesRepository;
+import com.github.supercoding.service.mapper.ItemMapper;
 import com.github.supercoding.web.dto.items.BuyOrder;
 import com.github.supercoding.web.dto.items.Item;
 import com.github.supercoding.web.dto.items.ItemBody;
@@ -23,7 +24,7 @@ public class ElectronicStoreItemService {
 
     public List<Item> findAllItem() {
         List<ItemEntity> itemEntities = electronicStoreItemRepository.findAllItems();
-        return itemEntities.stream().map(Item::new).collect(Collectors.toList());
+        return itemEntities.stream().map(ItemMapper.INSTANCE::itemEntityToItem).collect(Collectors.toList());
     }
 
     public Integer saveItem(ItemBody itemBody) {
@@ -35,14 +36,16 @@ public class ElectronicStoreItemService {
     public Item findItemByID(String id){
         Integer idInt = Integer.parseInt(id);
         ItemEntity itemEntity = electronicStoreItemRepository.findItemByPathID(idInt);
-        Item item = new Item(itemEntity);
+        Item item = ItemMapper.INSTANCE.itemEntityToItem(itemEntity);
         return item;
     }
 
     public List<Item> findItemsByIds(List<String> ids) {
         List<ItemEntity> itemEntities = electronicStoreItemRepository.findItemsByIds();
         return itemEntities.stream()
-                .map(Item::new).filter((item -> ids.contains(item.getId()))).collect(Collectors.toList());
+                .map(ItemMapper.INSTANCE::itemEntityToItem)
+                .filter((item -> ids.contains(item.getId())))
+                .collect(Collectors.toList());
     }
 
     public void deleteItem(String id) {
@@ -56,7 +59,7 @@ public class ElectronicStoreItemService {
                 itemBody.getSpec().getCpu(), itemBody.getSpec().getCapacity());
 
         ItemEntity itemEntityUpdated = electronicStoreItemRepository.updateItemEntity(idInt, itemEntity);
-        return new Item(itemEntityUpdated);
+        return ItemMapper.INSTANCE.itemEntityToItem(itemEntityUpdated);
     }
 
     @Transactional(transactionManager = "tm1")
