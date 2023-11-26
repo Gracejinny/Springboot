@@ -9,6 +9,8 @@ import com.github.supercoding.web.dto.items.BuyOrder;
 import com.github.supercoding.web.dto.items.Item;
 import com.github.supercoding.web.dto.items.ItemBody;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ElectronicStoreItemService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ElectronicStoreItemRepository electronicStoreItemRepository;
     private final StoreSalesRepository storeSalesRepository;
@@ -41,7 +45,7 @@ public class ElectronicStoreItemService {
     }
 
     public List<Item> findItemsByIds(List<String> ids) {
-        List<ItemEntity> itemEntities = electronicStoreItemRepository.findItemsByIds();
+        List<ItemEntity> itemEntities = electronicStoreItemRepository.findItemsByIds(ids);
         return itemEntities.stream()
                 .map(ItemMapper.INSTANCE::itemEntityToItem)
                 .filter((item -> ids.contains(item.getId())))
@@ -84,6 +88,11 @@ public class ElectronicStoreItemService {
 
         // 4. 상품의 재고에 기존 계산한 재고를 구매하는 수량을 뺸다.
         electronicStoreItemRepository.updateItemStock(itemId, itemEntity.getStock() -successBuyItemNums);
+
+        if (successBuyItemNums == 4){
+            logger.error("4구매하는 건 허락하지 않습니다.");
+            throw new RuntimeException("4개를 구매하는 건 허락하지 않습니다.");
+        }
 
         // 5. 상품 구매하는 수량 * 가격 만큼 가계 매상으로 올린다.
         StoreSales storeSales = storeSalesRepository.findStoreSalesById(itemEntity.getStoreId());

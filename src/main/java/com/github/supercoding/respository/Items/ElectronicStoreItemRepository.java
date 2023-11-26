@@ -11,7 +11,7 @@ public interface ElectronicStoreItemRepository {
 
     ItemEntity findItemByPathID(Integer idInt);
 
-    List<ItemEntity> findItemsByIds();
+    List<ItemEntity> findItemsByIds(List<String> ids);
 
     void deleteItem(int parseInt);
 

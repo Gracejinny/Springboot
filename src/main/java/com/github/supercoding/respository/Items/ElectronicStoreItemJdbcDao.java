@@ -60,7 +60,7 @@ public class ElectronicStoreItemJdbcDao implements ElectronicStoreItemRepository
     }
 
     @Override
-    public List<ItemEntity> findItemsByIds() {
+    public List<ItemEntity> findItemsByIds(List<String> ids) {
         return null;
     }
 
