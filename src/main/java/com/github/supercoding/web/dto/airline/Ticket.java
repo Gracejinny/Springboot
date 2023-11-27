@@ -3,6 +3,7 @@ package com.github.supercoding.web.dto.airline;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.supercoding.respository.airlineTicket.AirlineTicket;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,11 +15,11 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Ticket {
-    private String depart;
-    private String arrival;
-    private String departureTime;
-    private String returnTime;
-    private Integer ticketId;
+    @ApiModelProperty(name = "depart", value = "DepartureLoc") private String depart;
+    @ApiModelProperty(name = "arrival", value = "ArrivalLoc")private String arrival;
+    @ApiModelProperty(name = "departureTime", value = "DepartureAt")private String departureTime;
+    @ApiModelProperty(name = "returnTime", value = "ReturnAt")private String returnTime;
+    @ApiModelProperty(name = "ticketId", value = "ticketId")private Integer ticketId;
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
