@@ -12,6 +12,8 @@ import com.github.supercoding.web.dto.items.ItemBody;
 import com.github.supercoding.web.dto.items.StoreInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,11 +30,13 @@ public class ElectronicStoreItemService {
     private final ElectronicStoreItemJpaRepository electronicStoreItemJpaRepository;
     private final StoreSalesJpaRepository storeSalesJpaRepository;
 
+    @Cacheable(value = "items", key = "#root.methodName")
     public List<Item> findAllItem() {
         List<ItemEntity> itemEntities = electronicStoreItemJpaRepository.findAll();
         return itemEntities.stream().map(ItemMapper.INSTANCE::itemEntityToItem).collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "items", allEntries = true)
     public Integer saveItem(ItemBody itemBody) {
         ItemEntity itemEntity = ItemMapper.INSTANCE.idAndItemBodyToItemEntity(null,itemBody);
         ItemEntity itemEntityCreated;
@@ -40,6 +44,7 @@ public class ElectronicStoreItemService {
         return itemEntityCreated.getId();
     }
 
+    @Cacheable(value = "items", key = "#id")
     public Item findItemByID(String id){
         Integer idInt = Integer.parseInt(id);
         ItemEntity itemEntity = electronicStoreItemJpaRepository.findById(idInt).orElseThrow(()->new NotFoundException("해당 아이디를 찾을 수 없습니다."));
@@ -47,6 +52,7 @@ public class ElectronicStoreItemService {
         return item;
     }
 
+    @Cacheable(value = "items", key = "#ids")
     public List<Item> findItemsByIds(List<String> ids) {
         List<ItemEntity> itemEntities = electronicStoreItemJpaRepository.findAll();
         return itemEntities.stream()
@@ -55,11 +61,13 @@ public class ElectronicStoreItemService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "items", allEntries = true)
     public void deleteItem(String id) {
         Integer idInt = Integer.parseInt(id);
         electronicStoreItemJpaRepository.deleteById(idInt);
     }
 
+    @CacheEvict(value = "items", allEntries = true)
     @Transactional(transactionManager = "tmJpa1")
     public Item updateItem(String id, ItemBody itemBody) {
         Integer idInt = Integer.valueOf(id);
