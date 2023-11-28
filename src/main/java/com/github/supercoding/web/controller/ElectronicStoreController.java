@@ -70,7 +70,7 @@ public class ElectronicStoreController {
     @DeleteMapping("/items/{id}")
     public String deleteItemByPathId(@PathVariable String id){
         electronicStoreItemService.deleteItem(id);
-        return "Object with id = " + id + " has been deleteed";
+        return "Object with id = " + id + " has been deleted";
     }
 
     @ApiOperation("모든 Item id로 수정")
@@ -96,7 +96,7 @@ public class ElectronicStoreController {
         return items;
     }
 
-    @ApiOperation("단일 가격으로 검색(쿼리문)")
+    @ApiOperation("가성비 싼 거부터 검색")
     @GetMapping("/items-prices")
     public List<Item> findItemByPrices(@ApiParam(name = "price", value = "item price")
                                          @RequestParam("max") Integer maxValue){

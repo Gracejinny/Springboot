@@ -14,9 +14,11 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "airline_ticket")
 public class AirlineTicket {
-    @Id @Column(name = "ticket_id")
+    @Id
+    @Column(name = "ticket_id")
     private Integer ticketId;
     @Column(name = "ticket_type", length = 5, columnDefinition = "CHECK (ticket_type in ('편도', '왕복')) ")
     private String ticketType;
@@ -39,15 +41,4 @@ public class AirlineTicket {
     @OneToMany(mappedBy = "airlineTicket")
     private List<Flight> flightList;
 
-
-    public AirlineTicket(Integer ticketId, String ticketType, String departureLoc, String arrivalLoc, Date departureAt, Date returnAt, Double tax, Double totalPrice) {
-        this.ticketId = ticketId;
-        this.ticketType = ticketType;
-        this.departureLoc = departureLoc;
-        this.arrivalLoc = arrivalLoc;
-        this.departureAt = departureAt.toLocalDate().atStartOfDay();
-        this.returnAt = returnAt.toLocalDate().atStartOfDay();
-        this.tax = tax;
-        this.totalPrice = totalPrice;
-    }
 }

@@ -7,12 +7,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
 @Setter
+@ToString
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Ticket {
     @ApiModelProperty(name = "depart", value = "DepartureLoc") private String depart;
