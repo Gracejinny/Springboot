@@ -28,9 +28,7 @@ public class ElectronicStoreController {
     @ApiOperation("모든 Item을 검색")
     @GetMapping("/items")
     public List<Item> findAllItem(){
-        log.info("GET /items 요청이 들어왔습니다.");
         List<Item> items = electronicStoreItemService.findAllItem();
-        log.info("GET /items 응답 : " + items);
         return items;
     }
 
@@ -60,9 +58,7 @@ public class ElectronicStoreController {
     @GetMapping("/items-queries")
     public List<Item> findItemByQueryIds(@ApiParam(name = "ids", value = "item IDs", example = "[1,2,3]")
             @RequestParam("id") List<String> ids){
-        log.info("ids : " + ids);
         List<Item> items = electronicStoreItemService.findItemsByIds(ids);
-        log.info("/items-queries 응답 : " + items);
         return items;
     }
 
@@ -90,9 +86,7 @@ public class ElectronicStoreController {
     @GetMapping("/items-types")
     public List<Item> findItemByTypes(@ApiParam(name = "types", value = "item types", example = "[1,2,3]")
                                          @RequestParam("type") List<String> types){
-        log.info("/item-types 요청 ids : " + types);
         List<Item> items = electronicStoreItemService.findItemByTypes(types);
-        log.info("/item-types  응답 : " + items);
         return items;
     }
 
