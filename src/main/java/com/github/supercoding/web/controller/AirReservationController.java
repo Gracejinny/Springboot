@@ -44,4 +44,12 @@ public class AirReservationController {
     public ReservationResult makeReservation(@RequestBody ReservationRequest reservationRequest){
              return airReservationService.makeReservation(reservationRequest);
     }
+
+    @ApiOperation("UserId의 예약한 항공편과 수수료 총합")
+    @GetMapping("/users-sum-price")
+    public Double findUserFlightSumPrice(@ApiParam(name = "user-Id", value = "유저 ID", example = "1")
+                                         @RequestParam("user-id") Integer userId){
+        Double sum = airReservationService.findUserFlightSumPrice(userId);
+        return sum;
+    }
 }

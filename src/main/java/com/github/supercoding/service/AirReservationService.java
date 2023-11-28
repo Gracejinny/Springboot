@@ -8,6 +8,7 @@ import com.github.supercoding.respository.flight.Flight;
 import com.github.supercoding.respository.passenger.Passenger;
 import com.github.supercoding.respository.passenger.PassengerJpaRepository;
 import com.github.supercoding.respository.passenger.PassengerRepository;
+import com.github.supercoding.respository.reservations.FlightPriceAndCharge;
 import com.github.supercoding.respository.reservations.Reservation;
 import com.github.supercoding.respository.reservations.ReservationJpaRepository;
 import com.github.supercoding.respository.reservations.ReservationRepository;
@@ -104,5 +105,17 @@ public class AirReservationService {
         Integer totalPrice = airlineTicket.getTotalPrice().intValue();
 
         return new ReservationResult(prices, charges, tax, totalPrice, isSuccess);
+    }
+
+    public Double findUserFlightSumPrice(Integer userId) {
+        // 1. flight_price, Charge 구하기
+        List<FlightPriceAndCharge> flightPriceAndCharges = reservationJpaRepository.findFlightPriceAndCharge(userId);
+
+        // 2. 모든 flight_price, Charge의 각각 합을 구하기
+        Double flightSum = flightPriceAndCharges.stream().mapToDouble(FlightPriceAndCharge::getFlightPrice).sum();
+        Double chargeSum = flightPriceAndCharges.stream().mapToDouble(FlightPriceAndCharge::getCharge).sum();
+
+        //3. 두개의 합을 다시 더하고 Return
+        return flightSum + chargeSum;
     }
 }
