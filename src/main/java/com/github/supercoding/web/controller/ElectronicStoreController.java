@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +60,6 @@ public class ElectronicStoreController {
     public List<Item> findItemByQueryIds(@ApiParam(name = "ids", value = "item IDs", example = "[1,2,3]")
             @RequestParam("id") List<String> ids){
         log.info("ids : " + ids);
-        electronicStoreItemService.findItemsByIds(ids);
         List<Item> items = electronicStoreItemService.findItemsByIds(ids);
         log.info("/items-queries 응답 : " + items);
         return items;
@@ -77,10 +78,39 @@ public class ElectronicStoreController {
         return electronicStoreItemService.updateItem(id, itemBody);
     }
 
-    @ApiOperation("아이템 구매")
+    @ApiOperation("단일 아이템 구매")
     @PostMapping("/items/buy")
     public String buyItem(@RequestBody BuyOrder buyOrder){
         Integer orderItemNums = electronicStoreItemService.buyItems(buyOrder);
         return "요청하신 Item 중 " + orderItemNums + "개를 구매하였습니다.";
+    }
+
+    @ApiOperation("여러 Item types 검색(쿼리문)")
+    @GetMapping("/items-types")
+    public List<Item> findItemByTypes(@ApiParam(name = "types", value = "item types", example = "[1,2,3]")
+                                         @RequestParam("type") List<String> types){
+        log.info("/item-types 요청 ids : " + types);
+        List<Item> items = electronicStoreItemService.findItemByTypes(types);
+        log.info("/item-types  응답 : " + items);
+        return items;
+    }
+
+    @ApiOperation("단일 가격으로 검색(쿼리문)")
+    @GetMapping("/items-prices")
+    public List<Item> findItemByPrices(@ApiParam(name = "price", value = "item price")
+                                         @RequestParam("max") Integer maxValue){
+        return electronicStoreItemService.findItemsOrderByPrices(maxValue);
+    }
+
+    @ApiOperation("pagination 지원")
+    @GetMapping("/items-page")
+    public Page<Item> findItemsPagination(Pageable pageable){
+        return electronicStoreItemService.findAllWithPageable(pageable);
+    }
+
+    @ApiOperation("pagination 지원 2")
+    @GetMapping("/items-types-page")
+    public Page<Item> findItemsPagination(@RequestParam("type") List<String> types, Pageable pageable){
+        return electronicStoreItemService.findAllWithPageable(types,pageable);
     }
 }

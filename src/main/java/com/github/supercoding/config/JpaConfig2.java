@@ -16,7 +16,9 @@ import java.util.Map;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations", "com.github.supercoding.respository.users"},
+        basePackages = {"com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.flight",
+                "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations",
+                "com.github.supercoding.respository.users"},
         entityManagerFactoryRef = "entityManagerFactoryBean2",
         transactionManagerRef = "tmJpa2"
 )
@@ -25,7 +27,9 @@ public class JpaConfig2 {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean2(@Qualifier("dataSource2")DataSource dataSource){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations", "com.github.supercoding.respository.users");
+        em.setPackagesToScan("com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.flight",
+                "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations",
+                "com.github.supercoding.respository.users");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -41,7 +45,7 @@ public class JpaConfig2 {
     }
 
     @Bean(name = "tmJpa2")
-    public PlatformTransactionManager transactionManager1(@Qualifier("dataSource2") DataSource dataSource){
+    public PlatformTransactionManager transactionManager2(@Qualifier("dataSource2") DataSource dataSource){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactoryBean2(dataSource).getObject());
         return transactionManager;
