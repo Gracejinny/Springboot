@@ -1,6 +1,8 @@
 package com.github.supercoding.web.controller;
 
+import com.github.supercoding.config.security.CustomAuthenticationEntryPoint;
 import com.github.supercoding.respository.reservations.Reservation;
+import com.github.supercoding.respository.userDetails.CustomUserDetails;
 import com.github.supercoding.service.AirReservationService;
 import com.github.supercoding.service.exceptions.InvalidValueException;
 import com.github.supercoding.service.exceptions.NotAcceptException;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +34,10 @@ public class AirReservationController {
     @ApiOperation("선호하는 Ticket 찾기")
     @GetMapping("/tickets")
     public TicketResponse findAirlineTickets(
-            @ApiParam(name = "user-Id", value = "유저 ID", example = "1") @RequestParam("user-Id") Integer userId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @ApiParam(name = "airline-ticket-type", value = "항공권 타입", example = "왕복|편도") @RequestParam("airline-ticket-type") String ticketType){
 
+            Integer userId = customUserDetails.getUserId();
             List<Ticket> tickets = airReservationService.findUserFavoritePlaceTickets(userId, ticketType);
             return new TicketResponse(tickets);
     }

@@ -18,7 +18,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         basePackages = {"com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.flight",
                 "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations",
-                "com.github.supercoding.respository.users"},
+                "com.github.supercoding.respository.users","com.github.supercoding.respository.roles", "com.github.supercoding.respository.userPrincipal"},
         entityManagerFactoryRef = "entityManagerFactoryBean2",
         transactionManagerRef = "tmJpa2"
 )
@@ -29,7 +29,7 @@ public class JpaConfig2 {
         em.setDataSource(dataSource);
         em.setPackagesToScan("com.github.supercoding.respository.airlineTicket", "com.github.supercoding.respository.flight",
                 "com.github.supercoding.respository.passenger", "com.github.supercoding.respository.reservations",
-                "com.github.supercoding.respository.users");
+                "com.github.supercoding.respository.users", "com.github.supercoding.respository.roles", "com.github.supercoding.respository.userPrincipal");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);

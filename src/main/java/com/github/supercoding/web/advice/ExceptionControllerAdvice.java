@@ -1,5 +1,6 @@
 package com.github.supercoding.web.advice;
 
+import com.github.supercoding.service.exceptions.CAuthenticationEntryPointException;
 import com.github.supercoding.service.exceptions.InvalidValueException;
 import com.github.supercoding.service.exceptions.NotAcceptException;
 import com.github.supercoding.service.exceptions.NotFoundException;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 @Slf4j
@@ -31,5 +34,19 @@ public class ExceptionControllerAdvice {
     public String handleInvalidValueException(InvalidValueException ive){
         log.error("Client 요청에 문제가 있어 다음처럼 출력합니다." + ive.getMessage());
         return ive.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public String handleAccessDeniedException(AccessDeniedException ade){
+        log.error("Client 요청에 문제가 있어 다음처럼 출력합니다. " + ade.getMessage());
+        return ade.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(CAuthenticationEntryPointException.class)
+    public String handleAuthenticationException(CAuthenticationEntryPointException ae){
+        log.error("Client 요청에 문제가 있어 다음처럼 출력합니다. " + ae.getMessage());
+        return ae.getMessage();
     }
 }
